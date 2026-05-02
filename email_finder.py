@@ -1,7 +1,7 @@
 import base64
 import os
 import stat
-from email.message import EmailMessage
+from email.mime.text import MIMEText
 from pathlib import Path
 from threading import Lock
 
@@ -91,7 +91,7 @@ def create_draft(
     Args:
         to: Recipient email address.
         subject: Email subject line.
-        body: Plain-text email body.
+        body: HTML email body. Use tags like <b>, <u>, <i>, <a href="...">, and <br> for line breaks. Plain newlines in the body are converted to <br> automatically.
         cc: Optional CC recipient(s), comma-separated.
         bcc: Optional BCC recipient(s), comma-separated.
     Returns:
@@ -102,14 +102,14 @@ def create_draft(
     except RuntimeError as e:
         return {"error": str(e)}
 
-    message = EmailMessage()
+    html_body = body if ("<br" in body.lower() or "<p" in body.lower()) else body.replace("\n", "<br>")
+    message = MIMEText(html_body, "html", "utf-8")
     message["To"] = to
     message["Subject"] = subject
     if cc:
         message["Cc"] = cc
     if bcc:
         message["Bcc"] = bcc
-    message.set_content(body)
 
     encoded = base64.urlsafe_b64encode(message.as_bytes()).decode()
 
