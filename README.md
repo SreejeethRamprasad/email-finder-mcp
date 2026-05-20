@@ -7,13 +7,11 @@ Originally built to support NGO outreach workflows — looking up contacts at pa
 ## Tools
 
 - `find_email(full_name, company_domain)` — returns AnyMailFinder's best guess for the person's professional email.
-- `create_draft(to, subject, body, cc?, bcc?)` — creates a draft in your Gmail account.
 
 ## Requirements
 
 - Python 3.11+
 - An [AnyMailFinder](https://anymailfinder.com) API key
-- A Google Cloud OAuth Desktop client (for `create_draft`) — see Gmail setup below
 - [`uv`](https://docs.astral.sh/uv/) (recommended) or `pip`
 
 ## Setup
@@ -24,7 +22,7 @@ cd email-finder-mcp
 uv sync
 ```
 
-Copy `.env.example` to `.env` and fill in your keys:
+Copy `.env.example` to `.env` and fill in your key:
 
 ```bash
 cp .env.example .env
@@ -32,27 +30,6 @@ cp .env.example .env
 ```
 
 The server auto-loads `.env` on startup — no `export` needed.
-
-## One-time Gmail setup (for `create_draft`)
-
-1. In [Google Cloud Console → Credentials](https://console.cloud.google.com/apis/credentials), create an **OAuth client ID** of type **Desktop app**. Note the client ID and secret.
-2. On the OAuth consent screen, add the scope `https://www.googleapis.com/auth/gmail.compose` and add your Gmail account as a test user (if the app is in "Testing" mode).
-3. Add the credentials to your `.env`:
-
-   ```
-   GOOGLE_OAUTH_CLIENT_ID=...
-   GOOGLE_OAUTH_CLIENT_SECRET=...
-   ```
-
-4. Run the bootstrapper once:
-
-   ```bash
-   uv run python authorize_gmail.py
-   ```
-
-   A browser window opens — grant access. A `token.json` (chmod 600) is written next to the script. The MCP server reads from it on each call and silently refreshes when needed.
-
-`token.json` and any `client_secret*.json` are gitignored. Re-run `authorize_gmail.py` only if you revoke access or change scopes.
 
 ## Use it from Claude Desktop
 
