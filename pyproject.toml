@@ -1,7 +1,7 @@
 [project]
-name = "little-bird-mcp-ngo-outreach"
+name = "email-finder-mcp"
 version = "0.1.0"
-description = "Add your description here"
+description = "MCP server to find professional emails via AnyMailFinder"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
