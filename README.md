@@ -29,31 +29,11 @@ No local Python setup or cloning required.
 
 ## Connect to Claude
 
-### Claude.ai (web)
+Works the same way on both Claude.ai (web) and Claude Desktop:
 
 1. Go to **Settings → Connectors → Add custom connector**
 2. Enter a name (e.g. `Email Finder`) and paste your Prefect URL.
 3. Click **Add** — the `find_email` tool will appear in your conversations.
-
-### Claude Desktop
-
-1. Open your MCP config file:
-   - **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
-   - **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
-
-2. Add the following, replacing the URL with your own:
-
-```json
-{
-  "mcpServers": {
-    "email-finder": {
-      "url": "https://your-server-name.fastmcp.app/mcp"
-    }
-  }
-}
-```
-
-3. Save and restart Claude Desktop.
 
 ## License
 
