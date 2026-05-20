@@ -12,7 +12,7 @@ Originally built to support NGO outreach workflows — looking up contacts at pa
 
 - Python 3.11+
 - An [AnyMailFinder](https://anymailfinder.com) API key
-- [`uv`](https://docs.astral.sh/uv/) (recommended) or `pip`
+- [`uv`](https://docs.astral.sh/uv/) — [install here](https://docs.astral.sh/uv/getting-started/installation/)
 
 ## Setup
 
@@ -22,18 +22,13 @@ cd email-finder-mcp
 uv sync
 ```
 
-Copy `.env.example` to `.env` and fill in your key:
-
-```bash
-cp .env.example .env
-# then edit .env
-```
-
-The server auto-loads `.env` on startup — no `export` needed.
-
 ## Use it from Claude Desktop
 
-Add this to your Claude Desktop MCP config (`~/Library/Application Support/Claude/claude_desktop_config.json` on macOS):
+1. Open your Claude Desktop MCP config file:
+   - **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
+   - **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
+
+2. Add the following, replacing the two placeholder values:
 
 ```json
 {
@@ -55,15 +50,10 @@ Add this to your Claude Desktop MCP config (`~/Library/Application Support/Claud
 }
 ```
 
-Restart Claude Desktop. The `find_email` tool will appear in the tool picker.
+- Replace `/absolute/path/to/email-finder-mcp` with the full path to the cloned folder (e.g. `/Users/yourname/email-finder-mcp` on macOS).
+- Replace `your_key_here` with your AnyMailFinder API key.
 
-## Run it standalone (HTTP)
-
-```bash
-uv run python email_finder.py
-```
-
-The server will listen on `http://127.0.0.1:8000`.
+3. Save the file and restart Claude Desktop. The `find_email` tool will appear in the tool picker.
 
 ## License
 
