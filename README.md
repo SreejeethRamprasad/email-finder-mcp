@@ -13,29 +13,25 @@ Originally built to support NGO outreach workflows — looking up contacts at pa
 - An [AnyMailFinder](https://anymailfinder.com) API key
 - A [Prefect](https://app.prefect.cloud) account (free tier works)
 
-## Deployment
+## Deploy your own instance
 
 Each user deploys their own instance so they use their own AnyMailFinder quota.
 
-1. **Fork** this repo on GitHub.
-
-2. **Sign in** to [Prefect Horizon](https://app.prefect.cloud) and create a new MCP server connected to your forked repo.
-
-3. **Set the environment variable** in Prefect's server settings:
+1. Sign in to [Prefect Horizon](https://app.prefect.cloud) and create a new MCP server.
+2. Connect it to this GitHub repo: `https://github.com/SreejeethRamprasad/email-finder-mcp`
+3. In Prefect's environment settings, add:
    ```
    ANYMAILFINDER_API_KEY=your_key_here
    ```
+4. Deploy. Prefect will give you a URL like `https://your-server-name.fastmcp.app/mcp`.
 
-4. **Deploy.** Prefect will give you a URL like:
-   ```
-   https://your-server-name.fastmcp.app/mcp
-   ```
+No local Python setup or cloning required.
 
 ## Connect to Claude
 
 ### Claude.ai (web)
 
-1. Go to **claude.ai → Settings → Connectors → Add custom connector**
+1. Go to **Settings → Connectors → Add custom connector**
 2. Enter a name (e.g. `Email Finder`) and paste your Prefect URL.
 3. Click **Add** — the `find_email` tool will appear in your conversations.
 
@@ -51,7 +47,6 @@ Each user deploys their own instance so they use their own AnyMailFinder quota.
 {
   "mcpServers": {
     "email-finder": {
-      "command": "url",
       "url": "https://your-server-name.fastmcp.app/mcp"
     }
   }
