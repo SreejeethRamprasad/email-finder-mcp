@@ -10,50 +10,55 @@ Originally built to support NGO outreach workflows — looking up contacts at pa
 
 ## Requirements
 
-- Python 3.11+
 - An [AnyMailFinder](https://anymailfinder.com) API key
-- [`uv`](https://docs.astral.sh/uv/) — [install here](https://docs.astral.sh/uv/getting-started/installation/)
+- A [Prefect](https://app.prefect.cloud) account (free tier works)
 
-## Setup
+## Deployment
 
-```bash
-git clone https://github.com/SreejeethRamprasad/email-finder-mcp.git
-cd email-finder-mcp
-uv sync
-```
+Each user deploys their own instance so they use their own AnyMailFinder quota.
 
-## Use it from Claude Desktop
+1. **Fork** this repo on GitHub.
 
-1. Open your Claude Desktop MCP config file:
+2. **Sign in** to [Prefect Horizon](https://app.prefect.cloud) and create a new MCP server connected to your forked repo.
+
+3. **Set the environment variable** in Prefect's server settings:
+   ```
+   ANYMAILFINDER_API_KEY=your_key_here
+   ```
+
+4. **Deploy.** Prefect will give you a URL like:
+   ```
+   https://your-server-name.fastmcp.app/mcp
+   ```
+
+## Connect to Claude
+
+### Claude.ai (web)
+
+1. Go to **claude.ai → Settings → Connectors → Add custom connector**
+2. Enter a name (e.g. `Email Finder`) and paste your Prefect URL.
+3. Click **Add** — the `find_email` tool will appear in your conversations.
+
+### Claude Desktop
+
+1. Open your MCP config file:
    - **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
    - **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
 
-2. Add the following, replacing the two placeholder values:
+2. Add the following, replacing the URL with your own:
 
 ```json
 {
   "mcpServers": {
     "email-finder": {
-      "command": "uv",
-      "args": [
-        "--directory",
-        "/absolute/path/to/email-finder-mcp",
-        "run",
-        "python",
-        "email_finder.py"
-      ],
-      "env": {
-        "ANYMAILFINDER_API_KEY": "your_key_here"
-      }
+      "command": "url",
+      "url": "https://your-server-name.fastmcp.app/mcp"
     }
   }
 }
 ```
 
-- Replace `/absolute/path/to/email-finder-mcp` with the full path to the cloned folder (e.g. `/Users/yourname/email-finder-mcp` on macOS).
-- Replace `your_key_here` with your AnyMailFinder API key.
-
-3. Save the file and restart Claude Desktop. The `find_email` tool will appear in the tool picker.
+3. Save and restart Claude Desktop.
 
 ## License
 
