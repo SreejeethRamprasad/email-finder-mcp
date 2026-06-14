@@ -11,21 +11,30 @@ Originally built to support NGO outreach workflows — looking up contacts at pa
 ## Requirements
 
 - An [AnyMailFinder](https://anymailfinder.com) API key
-- A [Prefect](https://app.prefect.cloud) account (free tier works)
+- A [Prefect Horizon](https://horizon.prefect.io) account (free tier works)
+- A GitHub account
 
 ## Deploy your own instance
 
 Each user deploys their own instance so they use their own AnyMailFinder quota.
 
-1. Sign in to [Prefect Horizon](https://app.prefect.cloud) and create a new MCP server.
-2. Connect it to this GitHub repo: `https://github.com/SreejeethRamprasad/email-finder-mcp`
-3. In Prefect's environment settings, add:
+Prefect Horizon can only deploy repos in *your own* GitHub account, so the first step is to fork this one.
+
+1. **Fork this repo.** Go to `https://github.com/SreejeethRamprasad/email-finder-mcp` and click **Fork** (top right). This creates a copy under your own GitHub account.
+2. Sign in to [Prefect Horizon](https://horizon.prefect.io) and start creating a new MCP server.
+3. On the **Select a repository to deploy** screen, choose your fork (`your-username/email-finder-mcp`). If it doesn't appear, click **Check permissions** / **Refresh** and grant the Prefect GitHub App access to the fork.
+4. On the deploy screen, set the **Entrypoint** to:
+   ```
+   email_finder.py:mcp
+   ```
+   (This points Prefect at the `mcp` server object in `email_finder.py`. Leaving it blank may work via auto-detection, but setting it explicitly is more reliable.)
+5. Add your API key as an environment variable (under **Advanced Configuration**, or in the server's settings after deploying):
    ```
    ANYMAILFINDER_API_KEY=your_key_here
    ```
-4. Deploy. Prefect will give you a URL like `https://your-server-name.fastmcp.app/mcp`.
+6. Click **Deploy Server**. Prefect will give you a URL like `https://your-server-name.fastmcp.app/mcp`.
 
-No local Python setup or cloning required.
+No local Python setup or cloning required — just the fork.
 
 ## Connect to Claude
 
